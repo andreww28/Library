@@ -202,7 +202,7 @@ function submit_form_input_values(){
     if(error_field.length > 0) return;
 
     form_inputs.map(input => input.style.borderColor = '#6E6E6E');
-    removeForm();
+    hideForm();
     book_collection.innerHTML = '';
 
     let book_info = new Book(title_input.value,
