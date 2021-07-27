@@ -95,8 +95,7 @@ function page_count_toggle(){
 
 
 function image_input_event(e){
-    let image_path = e.explicitOriginalTarget.value;
-    let image_file = image_path.split('\\')[2];
+    let image_file = e.target.files[0].name;
     selected_img.textContent = image_file;
     book_img_file_name = image_file;
 
