@@ -2,6 +2,7 @@
     --main-color: #FF6612;
     --background: #1F1D1D;
     --progress-bar-width: 0%;
+    --info-progress-bar-width: 70%;
 }
 *, *::before, *::after{
     margin:0;
@@ -15,10 +16,20 @@ body{
     background: var(--background);
 }
 
+.book-form, .book-info-container{
+    padding:1em;
+    color:#E5E5E5;
+    background-color:#414141;
+    border: 3px solid #ECB394;
+    border-radius: 10px;
+    box-shadow: 2px 1px 4px #ECB394;
+
+    position:fixed;
+    top:150vh;
+}
+
 img{
     width:100%;
-    max-width:10em;
-    height:15em;
     display:block;
     object-fit: cover;
     border-radius: 5px;
@@ -60,6 +71,11 @@ img{
 
 .page-count, #dark-mode{
     color: #6C635F;
+}
+
+h1, h2, h3, h4{
+    line-height:1;
+    text-align:center;
 }
 
 
@@ -208,6 +224,12 @@ header ul, .header-input{
     grid-template-rows: 15em 1fr 1fr 1fr;
     justify-items:center;
     gap:0.3em;
+    position:relative;
+}
+
+.book-collection img{
+    max-width:10em;
+    height:15em;
 }
 
 .progress-bar{
@@ -243,6 +265,19 @@ header ul, .header-input{
 .page-count{
     grid-row: 5/6;
     justify-self:start;
+}
+
+.more-info{
+    padding:0.2em 0.7em;
+    font-size:1rem;
+    color:#b1b1b1;
+    text-align:center;
+    background-color:var(--main-color);
+    border-radius:50%;
+    cursor:pointer;
+    position:absolute;
+    bottom:5px;
+    right:5px;
 }
 
 .change-ui-div{
@@ -327,23 +362,15 @@ footer{
 
 /* Form */
 .book-form{
-    padding:1em;
     width: 30em;
     height:40em;
-    color:#E5E5E5;
-    background-color:#414141;
-    border: 3px solid #ECB394;
-    border-radius: 10px;
-    box-shadow: 2px 1px 4px #ECB394;
-
+    
     display:grid;
     grid-template-columns: 1fr 2fr;
     grid-gap:1em;
     align-items:center;
     justify-items:center;
-
-    position:fixed;
-    top:150vh;
+    
     left:calc((100% - 30em)/2);
 }
 
@@ -417,7 +444,7 @@ footer{
     font-size: 0.97rem;
 }
 
-.submit-book-form, .cancel-book-form, #image-button{
+.submit-book-form, .cancel-book-form, #image-button, .info-main-btn{
     padding:0.5em 1em;
     background-color:#6E6E6E;
     outline:none;
@@ -449,6 +476,90 @@ footer{
     display:none;
 }
 
+/*More info elements*/
+
+.book-info-container{
+    margin:auto;
+    padding:1em;
+    font-family: 'Source Code Pro', monospace;
+    width: 40em;
+    height:45em;
+
+    background-image: linear-gradient(to bottom, rgba(5, 5, 5, 0.7), rgba(0, 0, 0, 0.9)),
+    url('test.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position:center center;
+
+    display:flex;
+    gap:2em;
+    flex-direction:column;
+    align-items:center;
+    top: 150vh;
+    left: calc((100vw - 40em)/2);
+}
+
+#info-title{
+    margin-top: 1em;
+}
+
+.info-subtitles{
+    font-size: 1.3rem;
+}
+
+.info-large-img{
+    max-width: 17em;
+    height:20em;
+}
+
+.info-progress{
+    width: 80%;
+    display:flex;
+    gap:1em;
+    align-items:center;
+    justify-content:center;
+}
+
+.info-progress-bar{
+    height:1.5em;
+}
+
+.info-progress-bar::after{
+    height:1.5em;
+    width: var(--info-progress-bar-width);
+}
+
+.info-status-value{
+    display:none;
+}
+
+.info-content{
+    margin:auto;
+    width: 80%;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap:1em;
+    justify-items:center;
+    align-items:center;
+}
+
+.page-read-btns{
+    grid-column: 1/3;
+}
+
+.page-read-btns > button{
+    margin:auto;
+    padding:0.5em 1em;
+    border:none;
+}
+
+.info-main-btn{
+    background-color:#414141;
+}
+
+
+
+/*+++++++++++*/
 
 @media (max-width: 1220px){
     header{
@@ -524,5 +635,3 @@ footer{
         grid-column: 1/3;
     }
 }
-
-

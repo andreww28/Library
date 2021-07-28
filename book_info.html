@@ -28,49 +28,16 @@
             </div>
         </header>
 
-        <div class="book-collection" id="book-collection">
-            <h2 id="empty-book-title">Create New Book Now</h2>
-        </div>
-    </div>
-
-    <div class="book-info-container">
-        <i class="fa fa-times" aria-hidden="true" id="close-form-btn"></i>
-
-        <h3 id="info-title">Hello World</h3>
-
-        <div class='info-content'>
-            <p class="info-author info-subtitles">Author:</p>
-            <p class="info-value">???</p>
-
-            <p class="info-author info-subtitles">Genre:</p>
-            <p class="info-value">???</p>
-
-            <p class="info-total-page info-subtitles">Total Page</p>
-            <p class="info-value">???</p>
-
-            <p class="info-remaining-page info-subtitles">Page Read: </p>
-            <p class="info-value">???</p>
-
-            <div class="page-read-btns">
-                <button class="button page_read_plus_btn" type='button'><i class="fa fa-plus" aria-hidden="true"></i></button>
-                <button class="button page_read_minus_btn" type='button'><i class="fa fa-minus" aria-hidden="true"></i></button>
-            </div>
-        </div>
-
-        <div class="form-buttons">
-            <button class="button info-main-btn" type="button">Edit</button>
-            <button class="button info-main-btn" type="button">Remove</button>
-        </div>
-
-        <div class="info-progress">
-            <p class="read-status info-subtitles">Status:</p>
-            <div class="progress-bar info-progress-bar"></div>
-            <p class="info-value info-status-value">NOT READ</p>
-        </div>
+        <div class="book-info-container">
+            <img src="" alt="book-cover">
+            <h3>Hello World</h3>
+                
+        <div>
+        
     </div>
 
     <form class="book-form" id="book-form" autocomplete="off">
-        <i class="fa fa-times" aria-hidden="true" id="close-form-btn"></i>
+        <i class="fa fa-times" aria-hidden="true" id="close-form-btn" onclick="hideForm()"></i>
         <h3 id="form-title">Add New Book</h3>
         <label for="title-input">Title:</label>
         <input type="text" id="title-input" class="invalid-input" value="" placeholder="Input title">
@@ -88,8 +55,8 @@
         <input type="text" id="total-page-input" value="" placeholder="Input total page">
         <p class="error-msg">Total Page must be a number only and not less than or start with 0.</p>
 
-        <label for="remaining-page-input">Page Read</label>
-        <input type="text" id="remaining-page-input" value="" placeholder="Input page read">
+        <label for="remaning-page-input">Page Read</label>
+        <input type="text" id="remaining-page-input" value="" placeholder="Input remaining page">
         <p class="error-msg">Page read must be a number only and not greater than to the total page.</p>
 
 
@@ -133,7 +100,5 @@
     <footer>
         <p><em>Made by: John Andrew</em></p>
     </footer>
-
-    <script src="script/script.js"></script>
 </body>
 </html>
