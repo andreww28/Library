@@ -8,17 +8,32 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
     <title>My Library</title>
+
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyDds_VdGEkY8VgF5XTmn30fkRoJq0Smg-k",
+            authDomain: "library-b86f0.firebaseapp.com",
+            projectId: "library-b86f0",
+            storageBucket: "library-b86f0.appspot.com",
+            messagingSenderId: "563169857654",
+            appId: "1:563169857654:web:02cc8f88d3f4b233d80f57",
+            measurementId: "G-SRWD67BVTH"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
 </head>
 
 <body>
     <div class="main-container" id="main-container">
         <header>
             <h1><em>Library</em></h1>
-            <ul>
-                <li><a href="#" class="nav-link">All</a></li>
-                <li><a href="#" class="nav-link">Author</a></li>
-                <li><a href="#" class="nav-link">Genre</a></li>
-            </ul>
+
             <div class="header-input">
                 <div class="search-bar">
                     <input type="search" placeholder="Type to Search" id="search">
@@ -28,8 +43,36 @@
             </div>
         </header>
 
-        <div class="book-collection" id="book-collection">
-            <h2 id="empty-book-title">Create New Book Now</h2>
+        <div class="main">
+            <div class="left-frame">
+                <div class='hide-library-info-btn' onclick="left_frame_display(this)">
+                    <p>&lt;</p>
+                </div>
+
+                <div class="library-info">
+                    <h4 class='libray-title-info'>Library Info</h4>
+                    <p class="info-library-subtitles">Total Books</p>
+                    <p class="library-info-value">???</p>
+    
+                    <p class="info-library-subtitles">Books Completed:</p>
+                    <p class="library-info-value">???</p>
+    
+                    <p class="info-library-subtitles">Total Pages</p>
+                    <p class="library-info-value">???</p>
+    
+                    <p class="info-library-subtitles">Page Completed:</p>
+                    <p class="library-info-value">???</p>
+    
+                    <p class="info-library-subtitles">Remaining Page:</p>
+                    <p class="library-info-value">???</p>
+
+                    <button class="button remove-all-book" onclick="remove_all_book()">Remove All Book</button>
+                </div>
+            </div>
+    
+            <div class="book-collection" id="book-collection">
+                <h2 class="empty-book-title">Create New Book Now</h2>
+            </div>
         </div>
     </div>
 
@@ -58,8 +101,8 @@
         </div>
 
         <div class="form-buttons">
-            <button class="button info-main-btn" type="button">Edit</button>
-            <button class="button info-main-btn" type="button">Remove</button>
+            <button class="button info-main-btn" type="button" onclick="edit_book_info()">Edit</button>
+            <button class="button info-main-btn" type="button" onclick="remove_book_info()">Remove</button>
         </div>
 
         <div class="info-progress">
@@ -88,8 +131,8 @@
         <input type="text" id="total-page-input" value="" placeholder="Input total page">
         <p class="error-msg">Total Page must be a number only and not less than or start with 0.</p>
 
-        <label for="remaining-page-input">Page Read</label>
-        <input type="text" id="remaining-page-input" value="" placeholder="Input page read">
+        <label for="page-read-input">Page Read</label>
+        <input type="text" id="page-read-input" value="" placeholder="Input page read">
         <p class="error-msg">Page read must be a number only and not greater than to the total page.</p>
 
 
@@ -117,9 +160,16 @@
     </form>
 
     <div class="change-ui-div">
-        <div class="collection-view">
-            <i class="fa fa-bars view-btn"></i>
-            <i class="fa fa-th-large view-btn view-btn-active"></i>
+        <div class="sort-div">
+            <label for="sort">Sort by:</label>
+            <select name="sort" id="sort" onchange="sort_book(this)">
+                <option value="">...</option>
+                <option value="title">Title</option>
+                <option value="author">Author</option>
+                <option value="genre">Genre</option>
+                <option value="total_page">Total Page</option>
+                <option value="page_read">Page Read</option>
+            </select>
         </div>
         <div class="toggle-div">
             <label id="dark-mode-title">Dark Mode:</label>
