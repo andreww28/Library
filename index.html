@@ -4,75 +4,57 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Source+Code+Pro:ital,wght@0,300;0,500;0,700;0,900;1,300;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
     <title>My Library</title>
-
-        <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
-
-    <script>
-        var firebaseConfig = {
-            apiKey: "AIzaSyDds_VdGEkY8VgF5XTmn30fkRoJq0Smg-k",
-            authDomain: "library-b86f0.firebaseapp.com",
-            projectId: "library-b86f0",
-            storageBucket: "library-b86f0.appspot.com",
-            messagingSenderId: "563169857654",
-            appId: "1:563169857654:web:02cc8f88d3f4b233d80f57",
-            measurementId: "G-SRWD67BVTH"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-    </script>
 </head>
 
 <body>
+    <header>
+        <h1><em>Library</em></h1>
+
+        <div class="header-input">
+            <div class="search-bar">
+                <input type="search" placeholder="Type to Search" id="search" value='' onclick="search(this)" onkeyup="search(this)">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                <div class="results">
+                </div>
+            </div>
+            <button class="add-book-btn button" id="show-form-btn"><i class="fa fa-plus" aria-hidden="true"></i>  Add Book</button>
+        </div>
+    </header>
+
+    <div class="left-frame">
+        <div class='hide-library-info-btn' onclick="left_frame_display()">
+            <p>&gt;</p>
+        </div>
+
+        <div class="library-info">
+            <h4 class='libray-title-info'>Library Info</h4>
+            <p class="info-library-subtitles">Total Books</p>
+            <p class="library-info-value">???</p>
+
+            <p class="info-library-subtitles">Books Completed:</p>
+            <p class="library-info-value">???</p>
+
+            <p class="info-library-subtitles">Total Pages</p>
+            <p class="library-info-value">???</p>
+
+            <p class="info-library-subtitles">Page Completed:</p>
+            <p class="library-info-value">???</p>
+
+            <p class="info-library-subtitles">Remaining Page:</p>
+            <p class="library-info-value">???</p>
+
+            <button class="button remove-all-book" onclick="remove_all_book()">Delete All Books</button>
+        </div>
+    </div>
+    
     <div class="main-container" id="main-container">
-        <header>
-            <h1><em>Library</em></h1>
-
-            <div class="header-input">
-                <div class="search-bar">
-                    <input type="search" placeholder="Type to Search" id="search">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                </div>
-                <button class="add-book-btn button" id="show-form-btn"><i class="fa fa-plus" aria-hidden="true"></i>  Add Book</button>
-            </div>
-        </header>
-
-        <div class="main">
-            <div class="left-frame">
-                <div class='hide-library-info-btn' onclick="left_frame_display(this)">
-                    <p>&lt;</p>
-                </div>
-
-                <div class="library-info">
-                    <h4 class='libray-title-info'>Library Info</h4>
-                    <p class="info-library-subtitles">Total Books</p>
-                    <p class="library-info-value">???</p>
-    
-                    <p class="info-library-subtitles">Books Completed:</p>
-                    <p class="library-info-value">???</p>
-    
-                    <p class="info-library-subtitles">Total Pages</p>
-                    <p class="library-info-value">???</p>
-    
-                    <p class="info-library-subtitles">Page Completed:</p>
-                    <p class="library-info-value">???</p>
-    
-                    <p class="info-library-subtitles">Remaining Page:</p>
-                    <p class="library-info-value">???</p>
-
-                    <button class="button remove-all-book" onclick="remove_all_book()">Remove All Book</button>
-                </div>
-            </div>
-    
-            <div class="book-collection" id="book-collection">
-                <h2 class="empty-book-title">Create New Book Now</h2>
-            </div>
+        <div class="book-collection" id="book-collection">
+            <h2 class="empty-book-title">Create New Book Now</h2>
         </div>
     </div>
 
@@ -103,6 +85,7 @@
         <div class="form-buttons">
             <button class="button info-main-btn" type="button" onclick="edit_book_info()">Edit</button>
             <button class="button info-main-btn" type="button" onclick="remove_book_info()">Remove</button>
+            <button class="button cancel-book-form" type="button" onclick="hideForm(document.querySelector('.book-info-container'))">Cancel</button>
         </div>
 
         <div class="info-progress">
@@ -116,7 +99,7 @@
         <i class="fa fa-times" aria-hidden="true" id="close-form-btn"></i>
         <h3 id="form-title">Add New Book</h3>
         <label for="title-input">Title:</label>
-        <input type="text" id="title-input" class="invalid-input" value="" placeholder="Input title">
+        <input type="text" id="title-input" value="" placeholder="Input title">
         <p class="error-msg">Title must contain 1-30 characters.</p>
 
         <label for="author-input">Author:</label>
@@ -145,39 +128,42 @@
         </div>
 
         <div class="image-input-div">
-            <label for="image-input">Image<sub>(optional)</sub>:</label>
+            <label id="label-img-input">Image<sub>(optional)</sub>:</label>
             <input type="file" id="image-input" name="" value="" accept="image/png, image/jpg, image/jpeg">
-            <button id="image-button" class="button" type="button">Upload File</button>
-        </div>
-        <div id="img-selected-div">
-            <p id="selected-img">No file selected.</p>
+
+            <div class="fromURL">
+                <label><input type='radio' name='pic_get_from' value = 'by_url' onchange='getImageFrom()'>By URL</label>
+                <input type="url" id="img-url-input" value="" placeholder="Paste image link" onkeyup="validate(this, 'img_url')">
+                <p class="error-msg">Invalid URL.</p>
+            </div>
+            
+
+            <div class="fromLocal">
+                <label><input type='radio' name='pic_get_from' value = 'local' onchange='getImageFrom()'>From Local</label>
+                <button id="image-button" class="button" type="button">Upload File</button>
+                <div id="img-selected-div">
+                    <p id="selected-img">No file selected.</p>
+                </div>
+            </div>
+
         </div>
 
         <div class="form-buttons">
             <button class="button submit-book-form" id="submit-form-btn" type="button"><i class="fa fa-plus" aria-hidden="true"></i>Add Book</button>
-            <button class="button cancel-book-form" type="button" onclick="hideForm()">Cancel</button>
+            <button class="button cancel-book-form" type="button" onclick="hideForm(document.querySelector('.book-form'))">Cancel</button>
         </div>
     </form>
 
-    <div class="change-ui-div">
-        <div class="sort-div">
-            <label for="sort">Sort by:</label>
-            <select name="sort" id="sort" onchange="sort_book(this)">
-                <option value="">...</option>
-                <option value="title">Title</option>
-                <option value="author">Author</option>
-                <option value="genre">Genre</option>
-                <option value="total_page">Total Page</option>
-                <option value="page_read">Page Read</option>
-            </select>
-        </div>
-        <div class="toggle-div">
-            <label id="dark-mode-title">Dark Mode:</label>
-            <label class="switch">
-                <input type="checkbox" id="dark-mode-checkbox">
-                <span class="slider round"></span>
-            </label>
-        </div>
+    <div class="sort-div">
+        <label for="sort">Sort by:</label>
+        <select name="sort" id="sort" onchange="sort_book(this)">
+            <option value="">...</option>
+            <option value="title">Title</option>
+            <option value="author">Author</option>
+            <option value="genre">Genre</option>
+            <option value="total_page">Total Page</option>
+            <option value="page_read">Page Read</option>
+        </select>
     </div>
 
     <footer>
