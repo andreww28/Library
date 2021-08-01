@@ -164,7 +164,7 @@ header ul, .header-input{
     padding-left:1.2em;
     width:100%;
     max-width: 20em;
-    min-width:12.5em;
+    min-width:9em;
     height:2.4em;
     border-radius: 30px;
     display:flex;
@@ -249,7 +249,7 @@ header ul, .header-input{
     top: 100px;
     background-color:#414141;
     width:18em;
-    height:65vh;
+    height:33em;
     z-index: 5;
     display:flex;
     flex-direction: column;
@@ -315,7 +315,7 @@ header ul, .header-input{
     padding: 0 5em;
     width: 80%;
     display:grid;
-    grid-template-columns: repeat(auto-fill, minmax(16em,1fr));
+    grid-template-columns: repeat(auto-fill, minmax(12em,1fr));
     grid-gap:2em 4em;
     align-items:center;
     justify-items:center;
