@@ -104,7 +104,7 @@ function left_frame_display(){
         header.style.filter = 'blur(8px)';
         main_container.style.filter = 'blur(8px)';
     }else{
-        gsap.to('.left-frame', {duration: 1, x:-285})
+        gsap.to('.left-frame', {duration: 1, x:-287})
         frame_display_btn.textContent = '>';
         header.style.filter = 'blur(0px)';
         main_container.style.filter = 'blur(0px)';
