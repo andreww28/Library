@@ -1,34 +1,36 @@
-let form_container = document.getElementById('book-form');
-let main_container = document.getElementById('main-container');
-let show_form_btn = document.getElementById('show-form-btn');
+const form_container = document.getElementById('book-form');
+const main_container = document.getElementById('main-container');
+const show_form_btn = document.getElementById('show-form-btn');
 
-let book_collection = document.getElementById("book-collection");
-let empty_book_collection_title = document.querySelector('.book-collection > h2');
+const book_collection = document.getElementById("book-collection");
+const empty_book_collection_title = document.querySelector('.book-collection > h2');
 
 //Form input
-let form_title = document.querySelector('#form-title');
-let form_inputs = Array.from(document.querySelectorAll('input[type="text"]'));
-let title_input = form_inputs[0];
-let author_input = form_inputs[1];
-let genre_input = form_inputs[2];
-let total_page_input = form_inputs[3];
-let page_read_input = form_inputs[4];
+const form_title = document.querySelector('#form-title');
+const form_inputs = Array.from(document.querySelectorAll('input[type="text"]'));
+const title_input = form_inputs[0];
+const author_input = form_inputs[1];
+const genre_input = form_inputs[2];
+const total_page_input = form_inputs[3];
+const page_read_input = form_inputs[4];
 
-let close_form_btn = document.querySelector('.book-form #close-form-btn');
-let page_count_checkbox = document.querySelector('#page-count-checkbox');
-let page_switch = document.querySelector('.read-switch');
+const close_form_btn = document.querySelector('.book-form #close-form-btn');
+const page_count_checkbox = document.querySelector('#page-count-checkbox');
+const page_switch = document.querySelector('.read-switch');
 
-let image_btn = document.getElementById('image-button');
-let image_input = document.getElementById('image-input');
-let selected_img = document.getElementById('selected-img');
-let submit_form_btn = document.getElementById('submit-form-btn');
+const img_url_field = document.querySelector('#img-url-input');
+const image_btn = document.getElementById('image-button');
+const image_input = document.getElementById('image-input');
+const selected_img = document.getElementById('selected-img');
+const submit_form_btn = document.getElementById('submit-form-btn');
 
-let more_info_container = document.querySelector('.book-info-container');
-let plus_page_read_btn = document.querySelector('.page_read_plus_btn');
-let minus_page_read_btn = document.querySelector('.page_read_minus_btn');
+const more_info_container = document.querySelector('.book-info-container');
+const plus_page_read_btn = document.querySelector('.page_read_plus_btn');
+const minus_page_read_btn = document.querySelector('.page_read_minus_btn');
+const frame = document.querySelector('.left-frame');
+
 let info_total_page;
 let info_page_read;
-let info_page_read_field;
 let info_current_data;
 let info_current_index;
 
@@ -42,17 +44,18 @@ let valid_input = {
     'author' :  /^.{1,20}$/,
     'genre' :  /^.{1,15}$/,
     'total_page': /^[1-9](\d+)?$/,
+    'img_url' : /^(http(s)?:\/\/.+)?$/,
 };
 
 function main(){
-    clear_input_field();
-    retrieve_data();
-    set_library_info();
-    form_inputs_events();
-
     if(localStorage.books_collection === '[]'){
         create_book_element(book_collection, 'h2', 'empty-book-title', 'Create New Book Now');
     }
+
+    clear_input_field();
+    form_inputs_events();
+    retrieve_data();
+    set_library_info();
 
     show_form_btn.addEventListener('click', show_add_book_form);
     close_form_btn.addEventListener('click', hideForm.bind(event, form_container),false)
@@ -77,10 +80,9 @@ function Book(title,author,genre,total_page, page_read, book_img, img_file_name)
 }
 
 function set_library_info(){
-    let field_value = document.querySelectorAll('.info-library-subtitles + p');
-
+    let field_value = document.querySelectorAll('.info-library-subtitles + p'); //All values of subtitle in left frame
     let total_books = myLibrary.length;
-    let books_completed = myLibrary.filter(book => book.total_page === book.page_read).length;
+    let books_completed = myLibrary.filter(book => book.total_page == book.page_read).length;
     let total_pages = myLibrary.reduce((total, book) => { return total + parseInt(book.total_page)},0);
     let page_completed = myLibrary.reduce((total, book) => {return total + parseInt(book.page_read)},0);
     let remaining_page = total_pages - page_completed;
@@ -92,18 +94,20 @@ function set_library_info(){
     field_value[4].textContent = remaining_page;
 }
 
-function left_frame_display(btn){
-    const frame = document.querySelector('.left-frame');
+function left_frame_display(){
     const frame_display_btn = document.querySelector('.hide-library-info-btn > p');
+    const header = document.querySelector('header');
 
-    if(frame_display_btn.textContent === '<'){
-        frame.setAttribute('style', 'transform: translateX(-100%); transition: 1s');
-        book_collection.setAttribute('style', 'transform: translateX(-13%); transition: 1s');
-        frame_display_btn.textContent = '>'
-    }else if(frame_display_btn.textContent === '>'){
-        frame.setAttribute('style', 'transform: translateX(00%); transition: 1s');
-        book_collection.setAttribute('style', 'transform: translateX(0%); transition: 1s');
-        frame_display_btn.textContent = '<'
+    if(frame_display_btn.textContent === '>'){
+        gsap.to('.left-frame', {duration: 1, x:2})
+        frame_display_btn.textContent = '<';
+        header.style.filter = 'blur(8px)';
+        main_container.style.filter = 'blur(8px)';
+    }else{
+        gsap.to('.left-frame', {duration: 1, x:-285})
+        frame_display_btn.textContent = '>';
+        header.style.filter = 'blur(0px)';
+        main_container.style.filter = 'blur(0px)';
     }
 }
 function clear_input_field(){
@@ -120,11 +124,14 @@ function clear_input_field(){
 
 function show_form(form_type){
     if(form_type === 'edit book'){
-        more_info_container.style.top = '150vh';
+        gsap.to('.book-info-container', {duration: 1, opacity:0, y : 1000})
     }
 
-    form_container.setAttribute('style', 'top:calc((100% - 40em)/2); transition: 1s;');
-    main_container.style.filter = "blur(8px)";
+    form_container.style.display = 'grid';
+    main_container.style.filter = 'blur(8px)';
+    frame.style.filter = 'blur(8px)';
+    document.querySelector('header').style.filter = 'blur(8px)';
+    gsap.fromTo(".book-form", {opacity:0, y: 100}, {duration: 1, opacity:1, y: 0});
 
 }
 
@@ -145,12 +152,18 @@ function show_add_book_form(){
 
 function hideForm(container){
     if(container === form_container){
+        gsap.to(".book-form", {duration: 1, opacity:0, y: 1000});
         if(submit_form_btn.textContent ==='Save Changes'){
             show_book_info();
         }
+    }else if(container === more_info_container){
+        gsap.to(".book-info-container", {duration: 1, opacity:0, y: 1000});
     }
+
     main_container.style.filter = "blur(0px)";
-    container.style.top = '150vh';
+    frame.style.filter = 'blur(0px)';
+    document.querySelector('header').style.filter = 'blur(0px)';
+    left_frame_display
 }
 
 
@@ -162,6 +175,25 @@ function page_count_toggle(){
             page_read_input.value = '';
         }
         validate(page_read_input, 'page_read_key');
+    }
+}
+
+function getImageFrom(){  //radio button event in form
+    let radio_value = document.querySelector("input[name=pic_get_from]:checked").value;
+    let url_field = document.querySelector('#img-url-input');
+    
+    if(radio_value === 'by_url'){
+        if(selected_img_path.startsWith('http')){
+            img_url_field.value = selected_img_path;
+        }
+        url_field.style.display = 'block';
+        image_btn.style.display = 'none';
+        selected_img.style.display = 'none';
+    }else{
+        img_url_field.value = '';
+        url_field.style.display = 'none';
+        image_btn.style.display = 'block';
+        selected_img.style.display = 'block';
     }
 }
 
@@ -179,7 +211,7 @@ function image_input_event(e){
         var img_data_url = e.target.result;
         selected_img_path = img_data_url;
 
-        if(parseInt(img_file.size) >= 2300000){
+        if(parseInt(img_file.size) >= 2300000){ //convert the local img if the img is greater than 2.3mb
             let img = new Image();
             img.src = selected_img_path;
             img.onload = ()=> {
@@ -254,6 +286,7 @@ function form_event_func(e){
 
 function validate(field, obj_input_attr){
     let error_msg = field.nextSibling.nextElementSibling;
+
     if(obj_input_attr != 'page_read_key'){
         if(valid_input[obj_input_attr].test(field.value) ){
             error_msg.classList.remove('show-error-msg');
@@ -305,7 +338,21 @@ function submit_form_input_values(){
     let error_field = form_inputs.filter(input => {
         if(input.style.borderColor === 'red' || input.value === '') return 'invalid field';
     });
+    let book_exist = myLibrary.filter(book => book.title === form_inputs[0].value);
+
     if(error_field.length > 0) return;
+    if(book_exist.length > 0){
+        alert("Book's already exists.");
+        return;
+    }
+ 
+    try {   //Avoid  getting error if user not choose one of the radio button in the form
+        if(document.querySelector("input[type=radio]:checked").value === 'by_url'){
+            selected_img_path = img_url_field.value;
+        }
+    } catch (TypeError) {
+        
+    }
 
     form_inputs.map(input => input.style.borderColor = '#6E6E6E');
     hideForm(form_container);
@@ -328,21 +375,21 @@ function submit_form_input_values(){
 }
 
 function add_data_to_LocalStorage(){
-    localStorage.setItem('books_collection', JSON.stringify(myLibrary));
+    localStorage.setItem('books_collection', JSON.stringify(myLibrary));    //convert the array of objects to string
     set_library_info();
 }
 
 function retrieve_data(){
-    if(localStorage.books_collection.length){
+    if(localStorage.length){
         if(localStorage.option_value){
             document.querySelector('#sort').value = localStorage.getItem('option_value');
         }
 
         empty_book_collection_title.style.display = 'none';
-        var datas = JSON.parse(localStorage["books_collection"]);
+        var datas = JSON.parse(localStorage["books_collection"]);   //convert the string of the array to array of objects
         myLibrary = datas;
         display_book();
-    }else if(localStorage.books_collection === '[]'){
+    }else if(localStorage.length === 0){
         myLibrary = [];
     }
 }
@@ -390,15 +437,13 @@ function display_book(){
     });
 
     let more_info_btns = Array.from(document.querySelectorAll('.more-info'));
-    let books = Array.from(document.querySelectorAll('.book'));
-
     more_info_btns.forEach(btn => btn.addEventListener('click', set_book_info.bind(event, more_info_btns), false));
-    //books.forEach(book => book.addEventListener('click', set_book_info.bind(event, books), true));
 }
 
 function remove_all_book(){
     myLibrary.splice(0, myLibrary.length);
-    display_book();
+    book_collection.innerHTML = ''
+    create_book_element(book_collection, 'h2', 'empty-book-title', 'Create New Book Now');
     add_data_to_LocalStorage();
 }
 
@@ -419,23 +464,23 @@ function create_book_element(parent, tag, _class, content, img_source){
 }
 
 function show_book_info(){
+    more_info_container.style.display = 'flex';
     main_container.style.filter = "blur(8px)";
-    more_info_container.setAttribute('style', 'top:calc((100vh - 45em)/2); transition: 1s;');
+    gsap.fromTo(".book-info-container", {opacity:0, y: 100}, {duration: 1, opacity:1, y: 0});
     display_current_book_data(info_current_data);
 }
 
 function set_book_info(array, e){
     let index = array.indexOf(e.target);
     let current_data = myLibrary[index];
-    let data_field = document.querySelectorAll('.info-value');
+    
 
     info_total_page = parseInt(current_data.total_page);
     info_page_read = parseInt(current_data.page_read);
-    info_page_read_field = data_field[3];
     info_current_data = current_data;
     info_current_index = index
 
-    show_book_info();
+    show_book_info(info_current_data);
 }   
 
 function display_current_book_data(current_data){
@@ -480,8 +525,16 @@ function edit_book_info(){
     page_read_input.value = info_current_data.page_read;
     selected_img_path = info_current_data.book_img;
 
-    (info_current_data.image_file_name === '') ? img_file_name_text = 'No file selected.' : img_file_name_text = info_current_data.image_file_name;
-    selected_img.textContent = img_file_name_text;
+    if(form_title.textContent == 'Edit Book'){
+        if(selected_img_path.startsWith('http')){
+            img_url_field.value = selected_img_path;
+            selected_img.textContent = 'No file selected.';
+        }else{
+            (info_current_data.image_file_name === '') ? img_file_name_text = 'No file selected.' : img_file_name_text = info_current_data.image_file_name;
+            selected_img.textContent = img_file_name_text;
+            img_url_field.value = '';
+        }
+    }
 
     form_inputs.map(input => input.style.borderColor = 'green');
     submit_form_btn.textContent = 'Save Changes';
@@ -496,8 +549,14 @@ function submit_form_changes(){
     });
     if(error_field.length > 0) return;
 
-    more_info_container.setAttribute('style', 'top:calc((100vh - 45em)/2); transition: 1s;');
-    form_container.setAttribute('style', 'top:150vh; transition: 1s;');
+    try {
+        if(document.querySelector("input[name=pic_get_from]:checked").value === 'by_url'){
+            selected_img_path = img_url_field.value;
+            img_url_field.value = '';
+        }
+    } catch (TypeError) {
+        
+    }
 
     let current_book_data = info_current_data;
     current_book_data['title'] = title_input.value;
@@ -509,6 +568,7 @@ function submit_form_changes(){
     current_book_data['image_file_name'] = book_img_file_name;
 
     add_data_to_LocalStorage();
+    hideForm(form_container);
     display_current_book_data(info_current_data);
     book_collection.innerHTML = '';
     display_book();
@@ -520,6 +580,8 @@ function set_info_progress_bar_status(operation){
     let info_status_value = document.querySelector('.info-status-value');
     let page_read = parseInt(info_current_data.page_read);
     let total_page = parseInt(info_current_data.total_page);
+
+    let info_page_read_field = document.querySelectorAll('.info-value')[3];
 
     if(page_read >= parseInt(0) && page_read <=  total_page && operation != ''){
         if(operation === 'add' && page_read < total_page){
@@ -555,7 +617,7 @@ function sort_book(select){
     option_value = select.value;
     if(myLibrary.length && option_value != ''){
         if(option_value === 'total_page' || option_value === 'page_read'){
-            myLibrary.sort((a, b) => {return(a[option_value].toLowerCase() < b[option_value].toLowerCase()) ? 1 : -1});
+            myLibrary.sort((a, b) => {return(a[option_value] < b[option_value]) ? 1 : -1});
         }else{
             myLibrary.sort((a, b) => {return(a[option_value].toLowerCase() > b[option_value].toLowerCase()) ? 1 : -1});
         }
@@ -567,5 +629,56 @@ function sort_book(select){
     }
 }
 
-window.addEventListener('load', main, false);
+function search(search_field){
+    const result_container = document.querySelector('.results');
+    result_container.innerHTML = '';
+    let search_value = search_field.value.toLowerCase().split(' ').join('');
+    let results;
 
+    let match_book = myLibrary.filter(book => {
+        let book_title = book.title.toLowerCase().split(' ').join(''); //book title in lowercase form without whitespace
+        let book_author = book.author.toLowerCase().split(' ').join(''); 
+
+        return (book_title.startsWith(search_value) || book_author.startsWith(search_value)) && search_value != '';
+    }); 
+
+    match_book.forEach(book => {
+        create_book_element(result_container, 'div', 'result', `<p class='result-title'>${book.title}</p>
+        <p class='result-author'>${book.author}</p>`);  
+    });
+
+    if(!match_book.length && search_value != ''){
+        create_book_element(result_container, 'div', 'result', `<p class='no-result'>Book's not found.</p>`);
+    }else if(search_value === ''){
+        result_container.innerHTML = ''; 
+    }else{
+        results = document.querySelectorAll('.result');
+        results.forEach(result => {
+            result.addEventListener('click',result_data.bind(event, match_book, search_field),false);
+        });
+    }
+}
+
+function result_data(match_book, search_field, e){
+    let text_value = e.target.textContent;
+    let title;
+    search_field.value = '';
+
+    if(e.target.tagName === 'DIV'){
+        title = text_value.split('\n')[0];
+    }else if(e.target.tagName === 'P'){
+        title = text_value;
+    }
+    
+    selected_data = match_book.filter(book => book.title === title || book.author === title)[0];
+    info_current_data = selected_data;
+    info_current_index = myLibrary.indexOf(selected_data);
+    show_book_info();
+}
+
+main_container.addEventListener('click', () => {
+    document.querySelector('.results').innerHTML = ''; 
+    document.querySelector('input[type="search"]').value = '';
+});
+
+window.addEventListener('load', main, false);
