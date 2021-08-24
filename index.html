@@ -7,8 +7,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Source+Code+Pro:ital,wght@0,300;0,500;0,700;0,900;1,300;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="style.css">
     <title>My Library</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -17,7 +17,7 @@
 
         <div class="header-input">
             <div class="search-bar">
-                <input type="search" placeholder="Type to Search" id="search" value='' onclick="search(this)" onkeyup="search(this)">
+                <input type="search" placeholder="Type to Search" id="search" value=''>
                 <i class="fa fa-search" aria-hidden="true"></i>
                 <div class="results">
                 </div>
@@ -27,7 +27,7 @@
     </header>
 
     <div class="left-frame">
-        <div class='hide-library-info-btn' onclick="left_frame_display()">
+        <div class='hide-library-info-btn'>
             <p>&gt;</p>
         </div>
 
@@ -48,7 +48,7 @@
             <p class="info-library-subtitles">Remaining Page:</p>
             <p class="library-info-value">???</p>
 
-            <button class="button remove-all-book" onclick="remove_all_book()">Delete All Books</button>
+            <button class="button remove-all-book">Delete All Books</button>
         </div>
     </div>
     
@@ -83,9 +83,9 @@
         </div>
 
         <div class="form-buttons">
-            <button class="button info-main-btn" type="button" onclick="edit_book_info()">Edit</button>
-            <button class="button info-main-btn" type="button" onclick="remove_book_info()">Remove</button>
-            <button class="button cancel-book-form" type="button" onclick="hideForm(document.querySelector('.book-info-container'))">Cancel</button>
+            <button class="button info-main-btn edit-btn" type="button">Edit</button>
+            <button class="button info-main-btn remove-btn" type="button">Remove</button>
+            <button class="button cancel-book-form" type="button">Cancel</button>
         </div>
 
         <div class="info-progress">
@@ -132,14 +132,14 @@
             <input type="file" id="image-input" name="" value="" accept="image/png, image/jpg, image/jpeg">
 
             <div class="fromURL">
-                <label><input type='radio' name='pic_get_from' value = 'by_url' onchange='getImageFrom()'>By URL</label>
-                <input type="url" id="img-url-input" value="" placeholder="Paste image link" onkeyup="validate(this, 'img_url')">
+                <label><input type='radio' name='pic_get_from' value = 'by_url'>By URL</label>
+                <input type="url" id="img-url-input" value="" placeholder="Paste image link">
                 <p class="error-msg">Invalid URL.</p>
             </div>
             
 
             <div class="fromLocal">
-                <label><input type='radio' name='pic_get_from' value = 'local' onchange='getImageFrom()'>From Local</label>
+                <label><input type='radio' name='pic_get_from' value = 'local'>From Local</label>
                 <button id="image-button" class="button" type="button">Upload File</button>
                 <div id="img-selected-div">
                     <p id="selected-img">No file selected.</p>
@@ -150,13 +150,13 @@
 
         <div class="form-buttons">
             <button class="button submit-book-form" id="submit-form-btn" type="button"><i class="fa fa-plus" aria-hidden="true"></i>Add Book</button>
-            <button class="button cancel-book-form" type="button" onclick="hideForm(document.querySelector('.book-form'))">Cancel</button>
+            <button class="button cancel-book-form" type="button">Cancel</button>
         </div>
     </form>
 
     <div class="sort-div">
         <label for="sort">Sort by:</label>
-        <select name="sort" id="sort" onchange="sort_book(this)">
+        <select name="sort" id="sort">
             <option value="">...</option>
             <option value="title">Title</option>
             <option value="author">Author</option>
@@ -169,7 +169,9 @@
     <footer>
         <p><em>Made by: John Andrew</em></p>
     </footer>
-
+    
     <script src="script/script.js"></script>
 </body>
 </html>
+    
+
